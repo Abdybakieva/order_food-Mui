@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 import styled from "styled-components";
 
 const Backdrop = ({ onClose }) => {
-  return <StyledBackdrop onClick={onClose} />;
+  return <StyledBackdrop  onClick={onClose}/>;
+  
 };
 
 const ModalContent = ({ children }) => {
@@ -13,11 +14,11 @@ const ModalContent = ({ children }) => {
 const backdropRoot=document.getElementById('backdrop')
 const modalOverlyRoot=document.getElementById("modal")
 
-export const Modal = ({ children }) => {
+export const Modal = ({ children ,onClose  }) => {
   return (
     <>
-      {createPortal(<Backdrop /> , backdropRoot)}
-      {createPortal(<ModalContent>{children}</ModalContent>,modalOverlyRoot)}
+      {createPortal(<Backdrop onClose={onClose} />, backdropRoot)}
+      {createPortal(<ModalContent>{children}</ModalContent>, modalOverlyRoot)}
     </>
   );
 };

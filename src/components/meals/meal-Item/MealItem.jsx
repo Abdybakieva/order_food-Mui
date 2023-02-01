@@ -1,16 +1,19 @@
-import React from 'react'
+// import React, { useContext } from 'react'
 import styled from 'styled-components'
 import MealForm from './MealForm';
 
 function MealItem({meal}) {
+
+
+
   return (
     <Container>
       <StyledItemInfo>
         <StyledTitle>{meal.title}</StyledTitle>
         <p>{meal.description}</p>
-        <span>${meal.prce}</span>
+        <span>${meal.price}</span>
       </StyledItemInfo>
-      <MealForm id={'amout' + Math.random().toString()}/>
+      <MealForm id={meal._id} price={meal.price} title={meal.title}/>
       
     </Container>
   );

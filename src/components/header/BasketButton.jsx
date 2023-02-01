@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as BasketLogo } from "../../assets/icons/Group.svg";
-export const BasketButton = ({ count=0 }) => {
+export const BasketButton = ({ count, ...restProps }) => {
   return (
-    <StyledButton>
+    <StyledButton {...restProps}>
         <BasketLogo/>
          <StyledTitle>Your Cart</StyledTitle>
-        <StyledCount>{count}</StyledCount>
+        <StyledCount id="counter">{count || 0}</StyledCount>
     </StyledButton>
   );
 };
@@ -23,10 +23,31 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
 
-/* 
   &:hover {
     background-color: #2c0d00;
-  } */
+  }
+
+  &.bump {
+    animation: bump 300ms ease-out;
+  }
+
+  @keyframes bump {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(0.9);
+    }
+    30% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 `;
 
 const StyledTitle=styled.span`

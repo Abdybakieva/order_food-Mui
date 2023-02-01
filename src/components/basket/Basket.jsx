@@ -1,52 +1,55 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { BasketContext } from "../../store/BasketContext";
 import { Modal } from "../UI/Modal";
 import { BasketItem } from "./BasketItem";
 import { TotalAmount } from "./TotalAmount";
 
-export const Basket = () => {
+export const Basket = ({ onClose }) => {
+  const { items, updeteBasketItem, deleteBasketItem } =
+    useContext(BasketContext);
 
-const items = [
-  {
-    id: "1",
-    title: "Sushi",
-    amount: 0,
-    price: 22.99,
-  },
-  {
-    id: "2",
-    title: "Schnitzel",
-    amount: 1,
-    price: 16.0,
-  },
-  {
-    id: "3",
-    title: "Barbecue Burger",
-    amount: 1,
-    price: 12.99,
-  },
-  {
-    id: "4",
-    title: "Green Bowl",
-    amount: 1,
-    price: 19.99,
-  },
-];
+
+  const getTotalPrice = () => {
+    return items.reduce((sum, { price, amount }) => sum + amount * price, 0);
+  };
+
+  const decrementAmount=(id,amount)=>{
+    if(amount > 1){
+      updeteBasketItem({amount:amount -1,id})
+    }
+    else{
+      deleteBasketItem(id)
+    }
+  }
+
+
+  const incrementAmount=(id,amount)=>{
+    updeteBasketItem({amount:amount +1,id})
+  };
 
   return (
-    <Modal onClose={() => {}}>
+    <Modal  onClose={onClose}>
       <Content>
-        {items.length ? (<FlexContainer>
-          {items.map((item)=>(
-             <BasketItem 
-             key={item.id}
-             title={item.title}
-             price={item.price}
-             amount={item.amount}/>
-          ))}
-       
-        </FlexContainer>) :null}
-        <TotalAmount price={200.5034} onClose={() => {}} onOrder={()=>{}} />
+        {items.length ? (
+          <FlexContainer>
+            {items.map((item) => (
+              <BasketItem
+                key={item._id}
+                incrementAmount={() => incrementAmount(item._id, item.amount)}
+                decrementAmount={() => decrementAmount(item._id, item.amount)}
+                title={item.title}
+                price={item.price}
+                amount={item.amount}
+              />
+            ))}
+          </FlexContainer>
+        ) : null}
+        <TotalAmount
+          price={getTotalPrice()}
+          onClose={onClose}
+          onOrder={() => {}}
+        />
       </Content>
     </Modal>
   );
@@ -57,7 +60,7 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-const FlexContainer=styled.div`
+const FlexContainer = styled.div`
   height: 228px;
   overflow-y: scroll;
-`
+`;
