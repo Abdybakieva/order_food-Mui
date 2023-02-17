@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../UI/Button";
 import { ReactComponent as PlusIcons } from "../../../assets/icons/PlusIcons.svg";
-import { BasketContext } from "../../../store/BasketContext";
+import { addtoBasket } from "../../../store/basket/basketReducer";
+import { useDispatch } from "react-redux";
 
 function MealForm({ id, title, price }) {
-  const { addToBasket } = useContext(BasketContext);
+const dispatch=useDispatch()
   const [amount, setAmount] = useState(1);
 
   const amoutChangeHandler = (event) => {
@@ -20,7 +21,7 @@ function MealForm({ id, title, price }) {
       title,
       amount,
     };
-    addToBasket(basketItem);
+    dispatch(addtoBasket(basketItem));
   };
 
   return (
