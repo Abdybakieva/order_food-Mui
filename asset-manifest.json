@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/order_food-Mui/static/css/main.df5aeb8a.css",
+    "main.js": "/order_food-Mui/static/js/main.93b840b8.js",
+    "static/js/787.1e3a1bdd.chunk.js": "/order_food-Mui/static/js/787.1e3a1bdd.chunk.js",
+    "static/media/1.jpg": "/order_food-Mui/static/media/1.058e3a5749d88597754f.jpg",
+    "static/media/Group.svg": "/order_food-Mui/static/media/Group.b8d33e94afa151b65893c6647ec288c8.svg",
+    "index.html": "/order_food-Mui/index.html",
+    "static/media/PlusIcons.svg": "/order_food-Mui/static/media/PlusIcons.b8a001afefc325562f9c1143fc9f21cd.svg",
+    "main.df5aeb8a.css.map": "/order_food-Mui/static/css/main.df5aeb8a.css.map",
+    "main.93b840b8.js.map": "/order_food-Mui/static/js/main.93b840b8.js.map",
+    "787.1e3a1bdd.chunk.js.map": "/order_food-Mui/static/js/787.1e3a1bdd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.df5aeb8a.css",
+    "static/js/main.93b840b8.js"
+  ]
+}
