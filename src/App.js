@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Basket } from "./components/basket/Basket";
 import { Header } from "./components/header/Header";
 import { Meals } from "./components/meals/Meals";
 import { Summary } from "./components/summary/Summary";
+import Snackbar from "./components/UI/Snackbar";
 import { store } from "./store";
+import { uiActions } from "./store/UI/UISlice";
 
 function AppContent() {
+  const dispatch=useDispatch()
 
-//  const[isBasketVisible, setBasketVisible]=useState(false)
+ const snackbar=useSelector((state)=>state.ui.snackbar)
 
 const [isBasketVisible, setBasketVisible] = useState(false)
 
@@ -17,14 +20,16 @@ const [isBasketVisible, setBasketVisible] = useState(false)
     setBasketVisible((prevState)=> ! prevState)
   }
   return (
-      <>
-        <Header onShowBasket={showBasketHandler} />
-        <Content>
-          <Summary />
-          <Meals />
-          {isBasketVisible && <Basket onClose={showBasketHandler} />}
-        </Content>
-      </>
+    <>
+      <Header onShowBasket={showBasketHandler} />
+      <Content>
+        <Summary />
+        <Meals />
+        {isBasketVisible && <Basket open={isBasketVisible} onClose={showBasketHandler} />}
+        <Snackbar isOpen={snackbar.isOpen} severity={snackbar.severity} message={snackbar.message}
+        onClose={()=>dispatch(uiActions.closeSnackbar())}/>
+      </Content>
+    </>
   );
 }
 

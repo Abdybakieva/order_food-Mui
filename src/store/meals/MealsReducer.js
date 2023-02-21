@@ -1,4 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchApi } from "../../lib/fetchAPI";
 
 export const mealsactionsTypes = {
@@ -11,40 +11,50 @@ const initialState = {
   isLoading: false,
 };
 
-export const MealsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    //    case mealsactionsTypes.GET_MEALS_STARTED:
-    //      return {
-    //        ...state,
-    //        isLoading: true  ,
-    //      };
-    case mealsactionsTypes.GET_MEALS_SUCCESS:
-      return {
-        ...state,
-        maels: action.payload,
-        isLoading: false,
-      };
-    default:
-      return state;
-  }
-};
+export const mealsSlice = createSlice({
+  name: "meals",
+  initialState,
+  extraReducers: (builder) => {
+    builder.addCase(getMeals.fulfilled, (state, action) => {
+      state.maels = action.payload;
+      state.isLoading = false;
+      state.error = "";
+    });
 
-export const fetchMeals = () => {
-  return async (dispatch, getState) => {
+    builder.addCase(getMeals.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(getMeals.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    });
+  },
+});
+
+export const mealsActions = mealsSlice.actions;
+
+export const getMeals = createAsyncThunk(
+  "meals/getMeals",
+  async (payload, { dispatch, rejectWithValue }) => {
     try {
-      dispatch({ type: mealsactionsTypes.GET_MEALS_STARTED });
-
       const { data } = await fetchApi("foods");
-      
-      dispatchEvent({
-        tupe: mealsactionsTypes.GET_MEALS_SUCCESS,
-        payload: data,
-      });
+      return data;
     } catch (error) {
-      dispatch({
-        type: mealsactionsTypes.GET_MEALS_FAILED,
-        payload: "something went wrong",
-      });
+      return rejectWithValue(error);
     }
-  };
-};
+  }
+);
+// export const fetchMeals = () => {
+//   return async (dispatch, getState) => {
+//     try {
+//       dispatch(mealsActions.getMealsStardet());
+
+//       const { data } = await fetchApi("foods");
+
+//       dispatchEvent(mealsActions.getMealsSuccess(data));
+//     } catch (error) {
+//       dispatch(mealsActions.getMealsFailed());
+//     }
+//   };
+// };
